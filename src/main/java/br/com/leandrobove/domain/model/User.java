@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,6 +46,12 @@ public class User implements UserDetails, Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Long id;
+	
+	@Column(nullable = false, unique = true)
+	private String codigo;
+	
+	@Column(nullable = false)
+	private String name;
 
 	@Column(unique = true, nullable = false)
 	private String username;
@@ -65,6 +73,13 @@ public class User implements UserDetails, Serializable {
 
 	public User(Long id, String username, String password) {
 		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
+	
+	public User(Long id, String name, String username, String password) {
+		this.id = id;
+		this.name = name;
 		this.username = username;
 		this.password = password;
 	}
@@ -126,6 +141,11 @@ public class User implements UserDetails, Serializable {
 	
 	public boolean isAdmin() {
 		return this.getAuthorities().stream().anyMatch((role) -> role.getAuthority().equals("ROLE_ADMIN"));
+	}
+	
+	@PrePersist
+	public void gerarCodigo() {
+		this.setCodigo(UUID.randomUUID().toString());
 	}
 
 }

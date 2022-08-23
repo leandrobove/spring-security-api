@@ -9,15 +9,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRequest {
-	
+
+	@NotBlank
+	private String name;
+
 	@NotBlank
 	private String username;
-	
+
 	@NotBlank
 	private String password;
-	
+
 	public User of() {
-		return new User(null, this.username, this.password);
+		return new User(null, this.name, this.username, this.password);
 	}
 
 }

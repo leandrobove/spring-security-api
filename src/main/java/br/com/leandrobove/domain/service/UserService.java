@@ -36,8 +36,6 @@ public class UserService implements UserDetailsService {
 
 		User user = this.findByUsernameOrFail(username);
 		
-		log.info("USER LOADED BY USERDETAILS ---> {}", user);
-
 		log.info("User object: {}", user);
 		
 		return new org.springframework.security.core.userdetails.User(

@@ -26,8 +26,8 @@ public class SpringsecuritytestApplication {
 			roleService.saveRole(admin);
 			roleService.saveRole(user);
 			
-			User joao = new User(null, "joao", "senha123");
-			User maria = new User(null, "maria", "senha123");
+			User joao = new User(null,"João da Silva", "joao", "senha123");
+			User maria = new User(null,"Maria M", "maria", "senha123");
 			
 			userService.saveUser(joao);
 			userService.saveUser(maria);
