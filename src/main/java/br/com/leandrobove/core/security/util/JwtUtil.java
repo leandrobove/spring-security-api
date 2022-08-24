@@ -35,6 +35,7 @@ public class JwtUtil {
 		return claimsResolver.apply(claims);
 	}
 
+	@SuppressWarnings("deprecation")
 	private Claims extractAllClaims(String token) {
 		return Jwts.parser().setSigningKey(securityProperties.getSecret()).parseClaimsJws(token).getBody();
 	}
@@ -61,17 +62,19 @@ public class JwtUtil {
 		return createRefreshToken(claims, userDetails.getUsername(), issuer);
 	}
 
+	@SuppressWarnings("deprecation")
 	private String createAccessToken(Map<String, Object> claims, String subject, String issuer) {
 
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setIssuer(issuer).setExpiration(securityProperties.ACCESS_TOKEN_EXPIRATION_TIME)
+				.setIssuer(issuer).setExpiration(SecurityProperties.ACCESS_TOKEN_EXPIRATION_TIME)
 				.signWith(SignatureAlgorithm.HS256, securityProperties.getSecret()).compact();
 	}
 
+	@SuppressWarnings("deprecation")
 	private String createRefreshToken(Map<String, Object> claims, String subject, String issuer) {
 
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setIssuer(issuer).setExpiration(securityProperties.REFRESH_TOKEN_EXPIRATION_TIME)
+				.setIssuer(issuer).setExpiration(SecurityProperties.REFRESH_TOKEN_EXPIRATION_TIME)
 				.signWith(SignatureAlgorithm.HS256, securityProperties.getSecret()).compact();
 	}
 

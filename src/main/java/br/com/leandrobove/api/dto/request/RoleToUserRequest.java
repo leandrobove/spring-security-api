@@ -1,4 +1,4 @@
-package br.com.leandrobove.api.dto;
+package br.com.leandrobove.api.dto.request;
 
 import java.io.Serializable;
 

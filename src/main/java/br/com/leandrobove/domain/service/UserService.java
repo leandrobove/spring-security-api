@@ -1,8 +1,8 @@
 package br.com.leandrobove.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -88,10 +88,10 @@ public class UserService implements UserDetailsService {
 		return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
 	}
 
-	public Page<User> getUsers(Pageable pageable) {
+	public List<User> getUsers() {
 		log.info("Fetching all users");
 
-		return userRepository.findAll(pageable);
+		return userRepository.findAll();
 	}
 
 	@Transactional

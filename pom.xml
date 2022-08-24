@@ -16,6 +16,7 @@
 	<description>Security Service Application Demo</description>
 	<properties>
 		<java.version>11</java.version>
+		<modelmapper.version>2.4.2</modelmapper.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -83,6 +84,12 @@
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.11.5</version>
 			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
 		</dependency>
 
 		<dependency>

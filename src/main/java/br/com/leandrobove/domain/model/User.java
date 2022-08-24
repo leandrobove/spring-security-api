@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +21,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -48,7 +46,7 @@ public class User implements UserDetails, Serializable {
 	private Long id;
 	
 	@Column(nullable = false, unique = true)
-	private String codigo;
+	private String uuid;
 	
 	@Column(nullable = false)
 	private String name;
@@ -59,9 +57,9 @@ public class User implements UserDetails, Serializable {
 	@Column(nullable = false)
 	private String password;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	@Getter(value = AccessLevel.NONE) // do not create getRoles method, use getAuthorities instead
+	//@Getter(value = AccessLevel.NONE) // do not create getRoles method, use getAuthorities instead
 	private Set<Role> roles = new HashSet<Role>();
 
 	@Column(nullable = false)
@@ -145,7 +143,7 @@ public class User implements UserDetails, Serializable {
 	
 	@PrePersist
 	public void gerarCodigo() {
-		this.setCodigo(UUID.randomUUID().toString());
+		this.setUuid(UUID.randomUUID().toString());
 	}
 
 }

@@ -9,10 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,25 +26,23 @@ import br.com.leandrobove.domain.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class AuthorizationFilter extends OncePerRequestFilter {
 
+	@Autowired
 	private SecurityProperties securityProperties;
 
+	@Autowired
 	private JwtUtil jwtUtil;
 
+	@Autowired
 	private UserService userService;
-
-	public AuthorizationFilter(SecurityProperties securityProperties, JwtUtil jwtUtil, UserService userService) {
-		this.securityProperties = securityProperties;
-		this.jwtUtil = jwtUtil;
-		this.userService = userService;
-	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		if (request.getServletPath().equals(securityProperties.getLoginUrl())) {
+		if (request.getServletPath().equals(securityProperties.getLoginUrl()) || request.getServletPath().equals("/api/token/refresh")) {
 			// do nothing here, let the request go to next filter..
 			filterChain.doFilter(request, response);
 			return;
@@ -50,7 +51,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 		// get jwt token from header and validate
 		Optional<String> authorizationHeader = Optional.ofNullable(request.getHeader(SecurityProperties.HEADER_STRING));
 
-		if (authorizationHeader.isEmpty() && !authorizationHeader.get().startsWith(SecurityProperties.TOKEN_PREFIX)) {
+		if (authorizationHeader.isEmpty() || !authorizationHeader.get().startsWith(SecurityProperties.TOKEN_PREFIX)) {
 			// authorization header not valid, go to the next filter..
 			filterChain.doFilter(request, response);
 			return;
@@ -88,6 +89,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
 			// error message
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			response.setStatus(HttpStatus.FORBIDDEN.value());
 
 			var output = new HashMap<String, String>();
 			output.put("error_message", e.getMessage());
