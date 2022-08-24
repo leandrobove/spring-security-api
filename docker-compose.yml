@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  spring-security-test-mysql-db:
+    image: mysql:8
+    container_name: spring-security-test-mysql-db
+    restart: always
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-security-test-api-network
+  
+  spring-security-test-api:
+    build: .
+    restart: always
+    container_name: spring-security-test-api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=spring-security-test-mysql-db
+      - API_SECRET=c2h1ZGZoNzg5dzIzeTQ4OTdoanNkZnVpb2ZqODkzNHU4OXI4OXNkamY4OTM0dTg5Zmpzdw==
+    networks:
+      - spring-security-test-api-network
+    depends_on:
+      - spring-security-test-mysql-db
+
+networks:
+  spring-security-test-api-network:
+    driver: bridge
