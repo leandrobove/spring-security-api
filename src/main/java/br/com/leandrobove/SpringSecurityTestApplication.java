@@ -11,10 +11,10 @@ import br.com.leandrobove.domain.service.RoleService;
 import br.com.leandrobove.domain.service.UserService;
 
 @SpringBootApplication
-public class SpringsecuritytestApplication {
+public class SpringSecurityTestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringsecuritytestApplication.class, args);
+		SpringApplication.run(SpringSecurityTestApplication.class, args);
 	}
 
 	@Bean

@@ -9,10 +9,10 @@
 		<version>2.6.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.leandrobove</groupId>
-	<artifactId>springsecuritytest</artifactId>
+	<groupId>com.github.leandrobove</groupId>
+	<artifactId>spring-security-test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springsecuritytest</name>
+	<name>spring-security-test</name>
 	<description>Security Service Application Demo</description>
 	<properties>
 		<java.version>11</java.version>
