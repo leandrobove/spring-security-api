@@ -1,4 +1,4 @@
-package br.com.leandrobove.core.config.modelmapper;
+package br.com.leandrobove.core.modelmapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
